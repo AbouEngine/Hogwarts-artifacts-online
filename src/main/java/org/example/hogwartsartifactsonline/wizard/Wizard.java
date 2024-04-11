@@ -1,9 +1,6 @@
 package org.example.hogwartsartifactsonline.wizard;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import org.example.hogwartsartifactsonline.artifact.Artifact;
 
 import java.io.Serializable;
@@ -12,6 +9,7 @@ import java.util.List;
 @Entity
 public class Wizard implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String name;
     // Many artifacts owned by a wizard
@@ -52,5 +50,10 @@ public class Wizard implements Serializable {
 
     public Integer getNumberOfArtifact() {
         return this.artifacts.size();
+    }
+
+    public void removeAllArtifacts() {
+        this.artifacts.forEach(artifact -> artifact.setOwner(null));
+        this.artifacts = null;
     }
 }

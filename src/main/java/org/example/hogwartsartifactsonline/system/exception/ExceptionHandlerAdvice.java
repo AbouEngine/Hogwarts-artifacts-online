@@ -1,6 +1,5 @@
 package org.example.hogwartsartifactsonline.system.exception;
 
-import org.example.hogwartsartifactsonline.artifact.exception.ArtifcatNotFoundException;
 import org.example.hogwartsartifactsonline.system.Result;
 import org.example.hogwartsartifactsonline.system.StatusCode;
 import org.springframework.http.HttpStatus;
@@ -19,12 +18,12 @@ import java.util.Map;
 public class ExceptionHandlerAdvice {
     /**
      * This method acts when service called into controller throws an exception
-     * @param e
+     * @param e exception
      * @return a result
      */
-    @ExceptionHandler(ArtifcatNotFoundException.class)
+    @ExceptionHandler(ObjectNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    Result handleArtifactNotFoundException(ArtifcatNotFoundException e) {
+    Result handleNotFoundException(ObjectNotFoundException e) {
         return new Result(false, StatusCode.NOT_FOUND, e.getMessage());
     }
 
