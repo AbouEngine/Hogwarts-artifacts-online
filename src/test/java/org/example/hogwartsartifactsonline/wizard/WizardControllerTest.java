@@ -195,4 +195,43 @@ class WizardControllerTest {
                 .andExpect(jsonPath("$.data").isEmpty());
     }
 
+    @Test
+    public void testAssignArtifactSuccess() throws Exception {
+        // Given
+        doNothing().when(this.wizardServive).assignArtifact(2, "1");
+
+        // Act and Then
+        this.mockMvc.perform(put(this.baseUrl + "/wizards/2/artifacts/1").accept(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.flag").value(true))
+                .andExpect(jsonPath("$.code").value(StatusCode.SUCCESS))
+                .andExpect(jsonPath("$.message").value("Artifact Assignment Success"))
+                .andExpect(jsonPath("$.data").isEmpty());
+    }
+
+    @Test
+    public void testAssignArtifactErrorWithNonExistentWizradId() throws Exception {
+        // Given
+        doThrow(new ObjectNotFoundException("wizard", 5)).when(this.wizardServive).assignArtifact(5, "1");
+
+        // Act and Then
+        this.mockMvc.perform(put(this.baseUrl + "/wizards/5/artifacts/1").accept(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.flag").value(false))
+                .andExpect(jsonPath("$.code").value(StatusCode.NOT_FOUND))
+                .andExpect(jsonPath("$.message").value("Could not find wizard with Id 5 :("))
+                .andExpect(jsonPath("$.data").isEmpty());
+    }
+
+    @Test
+    public void testAssignArtifactErrorWithNonExistentArtifactId() throws Exception {
+        // Given
+        doThrow(new ObjectNotFoundException("artifact", "4")).when(this.wizardServive).assignArtifact(1, "4");
+
+        // Act and Then
+        this.mockMvc.perform(put(this.baseUrl + "/wizards/1/artifacts/4").accept(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.flag").value(false))
+                .andExpect(jsonPath("$.code").value(StatusCode.NOT_FOUND))
+                .andExpect(jsonPath("$.message").value("Could not find artifact with Id 4 :("))
+                .andExpect(jsonPath("$.data").isEmpty());
+    }
+
 }
