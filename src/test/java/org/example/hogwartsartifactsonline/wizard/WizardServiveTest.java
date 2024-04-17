@@ -148,7 +148,7 @@ class WizardServiveTest {
     }
 
     @Test
-    public void testUpdaateNotFound() {
+    public void testUpdateNotFound() {
         // Given
         Wizard update = new Wizard();
         update.setId(1);

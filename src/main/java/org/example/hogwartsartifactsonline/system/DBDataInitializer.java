@@ -2,6 +2,8 @@ package org.example.hogwartsartifactsonline.system;
 
 import org.example.hogwartsartifactsonline.artifact.Artifact;
 import org.example.hogwartsartifactsonline.artifact.ArtifactRepository;
+import org.example.hogwartsartifactsonline.hogwartsUser.HogwartsUser;
+import org.example.hogwartsartifactsonline.hogwartsUser.UserRepository;
 import org.example.hogwartsartifactsonline.wizard.Wizard;
 import org.example.hogwartsartifactsonline.wizard.WizardRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -11,10 +13,12 @@ import org.springframework.stereotype.Component;
 public class DBDataInitializer implements CommandLineRunner {
     private final ArtifactRepository artifactRepository;
     private final WizardRepository wizardRepository;
+    private final UserRepository userRepository;
 
-    public DBDataInitializer(ArtifactRepository artifactRepository, WizardRepository wizardRepository) {
+    public DBDataInitializer(ArtifactRepository artifactRepository, WizardRepository wizardRepository, UserRepository userRepository) {
         this.artifactRepository = artifactRepository;
         this.wizardRepository = wizardRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -72,6 +76,27 @@ public class DBDataInitializer implements CommandLineRunner {
         wizard3.setName("Malefoy Drago");
         wizard3.addArtifact(a5);
 
+        HogwartsUser user1 = new HogwartsUser();
+        user1.setUserId(1);
+        user1.setUsername("Eren");
+        user1.setPassword("123456");
+        user1.setEnabled(true);
+        user1.setRoles("admin user");
+
+        HogwartsUser user2 = new HogwartsUser();
+        user2.setUserId(2);
+        user2.setUsername("Mikasa");
+        user2.setPassword("654321");
+        user2.setEnabled(true);
+        user2.setRoles("user");
+
+        HogwartsUser user3 = new HogwartsUser();
+        user3.setUserId(3);
+        user3.setUsername("Armin");
+        user3.setPassword("blablabla");
+        user3.setEnabled(true);
+        user3.setRoles("user");
+
         /* Save objets into repository.
            With cascade PERSIST and Merge we can save wizard and its artifacts are saved as well
          */
@@ -80,5 +105,9 @@ public class DBDataInitializer implements CommandLineRunner {
         wizardRepository.save(wizard3);
 
         artifactRepository.save(a6);
+
+        userRepository.save(user1);
+        userRepository.save(user2);
+        userRepository.save(user3);
     }
 }
