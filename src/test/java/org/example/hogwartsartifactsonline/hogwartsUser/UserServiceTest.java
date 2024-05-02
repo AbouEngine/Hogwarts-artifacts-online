@@ -92,9 +92,7 @@ class UserServiceTest {
         when(this.userRepository.findById(Mockito.any(Integer.class))).thenReturn(Optional.empty());
 
         // Act
-        Throwable throwable = assertThrows(ObjectNotFoundException.class, () -> {
-            this.userService.findBy(2);
-        });
+        Throwable throwable = assertThrows(ObjectNotFoundException.class, () -> this.userService.findBy(2));
 
         // Then
         assertThat(throwable).isInstanceOf(ObjectNotFoundException.class)
@@ -178,9 +176,7 @@ class UserServiceTest {
         when(this.userRepository.findById(1)).thenReturn(Optional.empty());
 
         // Act
-        assertThrows(ObjectNotFoundException.class, () -> {
-            this.userService.update(1, update);
-        });
+        assertThrows(ObjectNotFoundException.class, () -> this.userService.update(1, update));
 
         // Then
         verify(this.userRepository, times(1)).findById(1);
@@ -212,9 +208,7 @@ class UserServiceTest {
         when(this.userRepository.findById(Mockito.any(Integer.class))).thenReturn(Optional.empty());
 
         // Act
-        assertThrows(ObjectNotFoundException.class, () -> {
-            this.userService.delete(1);
-        });
+        assertThrows(ObjectNotFoundException.class, () -> this.userService.delete(1));
 
         // Then
         verify(this.userRepository, times(1)).findById(1);
