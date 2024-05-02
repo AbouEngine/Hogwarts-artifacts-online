@@ -3,7 +3,7 @@ package org.example.hogwartsartifactsonline.system;
 import org.example.hogwartsartifactsonline.artifact.Artifact;
 import org.example.hogwartsartifactsonline.artifact.ArtifactRepository;
 import org.example.hogwartsartifactsonline.hogwartsUser.HogwartsUser;
-import org.example.hogwartsartifactsonline.hogwartsUser.UserRepository;
+import org.example.hogwartsartifactsonline.hogwartsUser.UserService;
 import org.example.hogwartsartifactsonline.wizard.Wizard;
 import org.example.hogwartsartifactsonline.wizard.WizardRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -13,12 +13,12 @@ import org.springframework.stereotype.Component;
 public class DBDataInitializer implements CommandLineRunner {
     private final ArtifactRepository artifactRepository;
     private final WizardRepository wizardRepository;
-    private final UserRepository userRepository;
+    private final UserService userService;
 
-    public DBDataInitializer(ArtifactRepository artifactRepository, WizardRepository wizardRepository, UserRepository userRepository) {
+    public DBDataInitializer(ArtifactRepository artifactRepository, WizardRepository wizardRepository, UserService userService) {
         this.artifactRepository = artifactRepository;
         this.wizardRepository = wizardRepository;
-        this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     @Override
@@ -94,7 +94,7 @@ public class DBDataInitializer implements CommandLineRunner {
         user3.setUserId(3);
         user3.setUsername("Armin");
         user3.setPassword("blablabla");
-        user3.setEnabled(true);
+        user3.setEnabled(false);
         user3.setRoles("user");
 
         /* Save objets into repository.
@@ -106,8 +106,8 @@ public class DBDataInitializer implements CommandLineRunner {
 
         artifactRepository.save(a6);
 
-        userRepository.save(user1);
-        userRepository.save(user2);
-        userRepository.save(user3);
+        this.userService.save(user1);
+        this.userService.save(user2);
+        this.userService.save(user3);
     }
 }
